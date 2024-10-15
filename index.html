@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘 밤 곤듀와 볼 영화 고르기!</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: pink; /* 배경색을 핑크로 설정 */
+        }
+        .hidden { display: none; }
+        #loading { font-size: 24px; font-weight: bold; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>오늘 밤 곤듀와 볼 영화 고르기!</h1>
+    
+    <div id="question1">
+        <p>당신은 거대한 기업의 음모나 횡포를 다룬 이야기를 좋아하나요?</p>
+        <button onclick="nextQuestion(1)">예</button>
+        <button onclick="nextQuestion(1)">아니오</button>
+    </div>
+
+    <div id="question2" class="hidden">
+        <p>당신은 음악이 위주인 영화를 좋아하나요?</p>
+        <button onclick="nextQuestion(2)">예</button>
+        <button onclick="nextQuestion(2)">아니오</button>
+    </div>
+
+    <div id="question3" class="hidden">
+        <p>당신은 사랑하는 사람을 잃고 많이 슬퍼본 적이 있나요?</p>
+        <button onclick="nextQuestion(3)">예</button>
+        <button onclick="nextQuestion(3)">아니오</button>
+    </div>
+
+    <div id="question4" class="hidden">
+        <p>당신은 크라임 다큐멘터리를 보고서 겁을 먹고 잠을 못자는 아내에 대해 어떻게 생각합니까?</p>
+        <button onclick="nextQuestion(4)">귀엽다</button>
+        <button onclick="nextQuestion(4)">안그랬으면좋겠다</button>
+        <button onclick="nextQuestion(4)">아무생각없음</button>
+    </div>
+
+    <div id="question5" class="hidden">
+        <p>오늘 밤 영화와 함께 먹고싶은 주전부리는?</p>
+        <button onclick="nextQuestion(5)">맛밤</button>
+        <button onclick="nextQuestion(5)">쿠키</button>
+        <button onclick="nextQuestion(5)">아이스크림</button>
+    </div>
+
+    <div id="question6" class="hidden">
+        <p>아직도 힐빌리의 노래가 보고 싶습니까?</p>
+        <button onclick="nextQuestion(6)">응</button>
+        <button onclick="nextQuestion(6)">아니이젠별로</button>
+    </div>
+
+    <div id="question7" class="hidden">
+        <p>가족 영화는 어떨까요? 그런 귀여운 영화를 본지 오래 되었답니다.</p>
+        <button onclick="nextQuestion(7)">좋아요</button>
+        <button onclick="nextQuestion(7)">싫어요</button>
+    </div>
+
+    <div id="loading" class="hidden">
+        <p>귀여운 곤듀 AI 열일중!</p>
+    </div>
+
+    <div id="result" class="hidden">
+        <p id="movieResult"></p>
+        <button onclick="restart()">처음부터 다시 하기</button>
+    </div>
+
+    <script>
+        function nextQuestion(currentQuestion) {
+            // 현재 질문 숨기기
+            document.getElementById(`question${currentQuestion}`).classList.add('hidden');
+            
+            // 다음 질문 보여주기
+            const nextQuestion = currentQuestion + 1;
+            if (nextQuestion <= 7) {
+                document.getElementById(`question${nextQuestion}`).classList.remove('hidden');
+            } else {
+                showLoading();
+            }
+        }
+
+        function showLoading() {
+            // 로딩 화면 보여주기
+            document.getElementById('loading').classList.remove('hidden');
+
+            // 5초 후에 결과를 보여줌
+            setTimeout(showResult, 5000);
+        }
+
+        function showResult() {
+            // 로딩 화면 숨기기
+            document.getElementById('loading').classList.add('hidden');
+
+            // 랜덤 영화 제목 생성
+            const movies = ["인사이드아웃2", "엘카미노", "스트레이스", "힐빌리의노래"];
+            const randomIndex = Math.floor(Math.random() * movies.length);
+            const movie = movies[randomIndex];
+
+            // 결과 보여주기
+            document.getElementById('movieResult').innerText = `추천 영화: ${movie}`;
+            document.getElementById('result').classList.remove('hidden');
+        }
+
+        function restart() {
+            // 결과 숨기고 첫 질문으로 돌아가기
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('question1').classList.remove('hidden');
+
+            // 모든 질문 다시 숨기기
+            for (let i = 2; i <= 7; i++) {
+                document.getElementById(`question${i}`).classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
